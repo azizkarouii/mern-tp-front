@@ -1,0 +1,179 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #334155;
+  background: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-container {
+  box-sizing: border-box;
+  width: min(1120px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 38px 28px 48px;
+}
+
+.header {
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  color: #1e293b;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+
+.header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.header small {
+  color: #94a3b8 !important;
+}
+
+.counter-card {
+  box-sizing: border-box;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 32px 32px 20px;
+  border: 1px solid #d5e0eb;
+  border-radius: 9px;
+  background: #f1f5f9;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.04);
+}
+
+.counter-display {
+  min-height: 72px;
+  color: #64748b;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.counter-display.positive {
+  color: #10b981;
+}
+
+.counter-display.negative {
+  color: #ef4444;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+
+.btn {
+  min-width: 42px;
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 5px;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-dec {
+  background: #ef174b;
+}
+
+.btn-reset {
+  background: #718096;
+}
+
+.btn-inc {
+  background: #0876ad;
+}
+
+.step-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.step-control select {
+  min-width: 50px;
+  padding: 4px 7px;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #334155;
+  font: inherit;
+}
+
+.history-card {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  background: #f8fafc;
+  text-align: left;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.history-card p {
+  margin: 0;
+}
+
+.history-card p + p {
+  margin-top: 2px;
+}
+
+.history-card strong {
+  color: #334155;
+}
+
+@media (max-width: 560px) {
+  .app-container {
+    padding: 24px 16px 32px;
+  }
+
+  .counter-card {
+    padding: 24px 16px 16px;
+  }
+
+  .step-control {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .step-control select {
+    align-self: center;
+  }
+}
