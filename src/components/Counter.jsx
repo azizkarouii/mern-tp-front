@@ -1,5 +1,8 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+const MIN_COUNT = -50;
+const MAX_COUNT = 50;
 
 export default function Counter() {
   const [count, setCount] = useState(() => {
@@ -9,7 +12,10 @@ export default function Counter() {
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState('Aucun clic pour le moment');
   const [totalClics, setTotalClics] = useState(0);
-  const [historique, setHistorique] = useState([]);
+  const [historique, setHistorique] = useState(() => {
+    const sauvegarde = localStorage.getItem('mon_compteur_historique');
+    return sauvegarde !== null ? JSON.parse(sauvegarde) : [];
+  });
 
   useEffect(() => {
     document.title = 'Compteur : ' + count;
@@ -19,35 +25,68 @@ export default function Counter() {
     localStorage.setItem('mon_compteur_valeur', count.toString());
   }, [count]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      'mon_compteur_historique',
+      JSON.stringify(historique),
+    );
+  }, [historique]);
+
   // Gestionnaire d'incrémentation
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
     const nouveauCompte = count + step;
+
+    if (nouveauCompte > MAX_COUNT) {
+      window.alert('Seuil maximal de 50 atteint !');
+      return;
+    }
 
     setCount(nouveauCompte);
     setMessage('Ajout de ' + step);
-    setTotalClics(totalClics + 1);
+    setTotalClics((total) => total + 1);
 
     const action = '+' + step;
-    setHistorique([...historique, action]);
-  };
+    setHistorique((actions) => [...actions, action]);
+  }, [count, step]);
 
   // Gestionnaire de décrémentation
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
     const nouveauCompte = count - step;
+
+    if (nouveauCompte < MIN_COUNT) {
+      window.alert('Seuil minimal de -50 atteint !');
+      return;
+    }
 
     setCount(nouveauCompte);
     setMessage('Retrait de ' + step);
-    setTotalClics(totalClics + 1);
+    setTotalClics((total) => total + 1);
 
     const action = '-' + step;
-    setHistorique([...historique, action]);
-  };
+    setHistorique((actions) => [...actions, action]);
+  }, [count, step]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowUp') {
+        handleIncrement();
+      } else if (event.key === 'ArrowDown') {
+        handleDecrement();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleDecrement, handleIncrement]);
 
   // Gestionnaire de remise à zéro
   const handleReset = () => {
     setCount(0);
     setMessage('Remise à zéro');
-    setTotalClics(totalClics + 1);
+    setTotalClics((total) => total + 1);
     setHistorique([]);
   };
 
