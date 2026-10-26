@@ -1,12 +1,23 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Counter() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(() => {
+    const sauvegarde = localStorage.getItem('mon_compteur_valeur');
+    return sauvegarde !== null ? parseInt(sauvegarde, 10) : 0;
+  });
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState('Aucun clic pour le moment');
   const [totalClics, setTotalClics] = useState(0);
   const [historique, setHistorique] = useState([]);
+
+  useEffect(() => {
+    document.title = 'Compteur : ' + count;
+  }, [count]);
+
+  useEffect(() => {
+    localStorage.setItem('mon_compteur_valeur', count.toString());
+  }, [count]);
 
   // Gestionnaire d'incrémentation
   const handleIncrement = () => {
