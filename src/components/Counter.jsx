@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const MIN_COUNT = -50;
 const MAX_COUNT = 50;
@@ -33,11 +33,11 @@ export default function Counter() {
   }, [historique]);
 
   // Gestionnaire d'incrémentation
-  const handleIncrement = useCallback(() => {
+  const handleIncrement = () => {
     const nouveauCompte = count + step;
 
     if (nouveauCompte > MAX_COUNT) {
-      window.alert('Seuil maximal de 50 atteint !');
+      window.alert('Maximum threshold of 50 reached!');
       return;
     }
 
@@ -47,14 +47,14 @@ export default function Counter() {
 
     const action = '+' + step;
     setHistorique((actions) => [...actions, action]);
-  }, [count, step]);
+  };
 
   // Gestionnaire de décrémentation
-  const handleDecrement = useCallback(() => {
+  const handleDecrement = () => {
     const nouveauCompte = count - step;
 
     if (nouveauCompte < MIN_COUNT) {
-      window.alert('Seuil minimal de -50 atteint !');
+      window.alert('Minimum threshold of -50 reached!');
       return;
     }
 
@@ -64,7 +64,7 @@ export default function Counter() {
 
     const action = '-' + step;
     setHistorique((actions) => [...actions, action]);
-  }, [count, step]);
+  };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -80,7 +80,7 @@ export default function Counter() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleDecrement, handleIncrement]);
+  }, [count, step]);
 
   // Gestionnaire de remise à zéro
   const handleReset = () => {
