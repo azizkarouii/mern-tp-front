@@ -37,7 +37,7 @@ export default function Counter() {
     const nouveauCompte = count + step;
 
     if (nouveauCompte > MAX_COUNT) {
-      window.alert('Maximum threshold of 50 reached!');
+      window.alert("Seuil maximal de 50 atteint !");
       return;
     }
 
@@ -54,7 +54,7 @@ export default function Counter() {
     const nouveauCompte = count - step;
 
     if (nouveauCompte < MIN_COUNT) {
-      window.alert('Minimum threshold of -50 reached!');
+      window.alert("Seuil minimal de -50 atteint !");
       return;
     }
 
