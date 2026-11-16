@@ -1,12 +1,20 @@
-
-import React from 'react';
-import './index.css';
+import { useContext } from 'react';
+import { ThemeContext } from './context/theme-context';
+import Navbar from './components/Navbar';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
 
 export default function App() {
+  const { theme } = useContext(ThemeContext);
+
+  // La classe "light" ou "dark" choisit les couleurs définies dans index.css
   return (
-    <div className="app-container">
-      <h1>TP2</h1>
-      <p>Nouvelle base de travail pour le TP2.</p>
+    <div className={`app ${theme}`}>
+      <Navbar />
+      <main className="page">
+        <ProductList />
+        <Cart />
+      </main>
     </div>
   );
 }
