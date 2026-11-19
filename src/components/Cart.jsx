@@ -1,7 +1,14 @@
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, removeItem, clearCart, applyPromoCode } from '../redux/cartSlice';
+
 export default function Cart() {
-  // Étapes 4 et 6 : ces deux valeurs viendront du store Redux
-  const items = [];
-  const totalPrice = 0;
+  const { items, totalPrice, discountPercent } = useSelector(
+    (state) => state.cart,
+  );
+  const [code, setCode] = useState('');
+  const discountedPrice = totalPrice * (1 - discountPercent / 100);
+  const dispatch = useDispatch();
 
   return (
     <section className="card">
@@ -12,15 +19,28 @@ export default function Cart() {
         <div key={item.id} className="ligne">
           <span>{item.name} <span className="prix">x {item.quantity}</span></span>
           <span>
-            {/* Étape 7 : ces boutons enverront des actions au store */}
-            <button>-</button>
-            <button>+</button>
+            <button onClick={() => dispatch(removeItem(item.id))}>-</button>
+            <button onClick={() => dispatch(addItem(item))}>+</button>
           </span>
         </div>
       ))}
 
+      <div>
+        <input
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="Code promo"
+        />
+        <button onClick={() => dispatch(applyPromoCode(code))}>Appliquer</button>
+      </div>
+
       <p className="total">Total : {totalPrice} DT</p>
-      <button>Vider le panier</button>
+      {discountPercent > 0 && (
+        <p className="total" style={{ color: 'green' }}>
+          Après remise ({discountPercent} %) : {discountedPrice} DT
+        </p>
+      )}
+      <button onClick={() => dispatch(clearCart())}>Vider le panier</button>
     </section>
   );
 }

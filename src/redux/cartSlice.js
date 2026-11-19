@@ -1,9 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const loadItems = () => {
+  try {
+    return JSON.parse(localStorage.getItem('techstore_cart')) || [];
+  } catch {
+    return [];
+  }
+};
+
 const initialState = {
-  items: [],
+  items: loadItems(),
   totalCount: 0,
   totalPrice: 0,
+  discountPercent: 0,
 };
 
 const recalculateTotals = (state) => {
@@ -15,7 +24,11 @@ const recalculateTotals = (state) => {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+  localStorage.setItem('techstore_cart', JSON.stringify(state.items));
 };
+
+// Recalcule les totaux de l'état initial (items chargés depuis localStorage)
+recalculateTotals(initialState);
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -53,9 +66,15 @@ export const cartSlice = createSlice({
       state.items = [];
       state.totalCount = 0;
       state.totalPrice = 0;
+      localStorage.setItem('techstore_cart', JSON.stringify(state.items));
+    },
+    applyPromoCode: (state, action) => {
+      if (action.payload === 'POLY2027') {
+        state.discountPercent = 20;
+      }
     },
   },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, applyPromoCode } = cartSlice.actions;
 export default cartSlice.reducer;

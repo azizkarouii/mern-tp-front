@@ -1,11 +1,11 @@
 import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { ThemeContext } from '../context/theme-context';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  // Étape 4 : cette valeur viendra du store Redux
-  const totalCount = 0;
+  const totalCount = useSelector((state) => state.cart.totalCount);
 
   return (
     <nav className="navbar">

@@ -3,6 +3,7 @@ import { ThemeContext } from './context/theme-context';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
+import NotificationToast from './components/NotificationToast';
 
 export default function App() {
   const { theme } = useContext(ThemeContext);
@@ -15,6 +16,7 @@ export default function App() {
         <ProductList />
         <Cart />
       </main>
+      <NotificationToast />
     </div>
   );
 }
