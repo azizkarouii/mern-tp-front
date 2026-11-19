@@ -8,13 +8,24 @@ import NotificationToast from './components/NotificationToast';
 export default function App() {
   const { theme } = useContext(ThemeContext);
 
-  // La classe "light" ou "dark" choisit les couleurs définies dans index.css
   return (
-    <div className={`app ${theme}`}>
+    <div className={`app-shell ${theme}`}>
       <Navbar />
-      <main className="page">
-        <ProductList />
-        <Cart />
+      <main className="main-content container">
+        <header className="page-intro">
+          <h1>
+            État Global : <code>useContext</code> &amp; <code>Redux Toolkit</code>
+          </h1>
+          <p>
+            Séance 6 : Coexistence d'un état applicatif léger (Thème géré par
+            Context) et d'un état métier transactionnel (Panier géré par Redux
+            Toolkit).
+          </p>
+        </header>
+        <div className="store-layout">
+          <ProductList />
+          <Cart />
+        </div>
       </main>
       <NotificationToast />
     </div>

@@ -4,16 +4,25 @@ import { ThemeContext } from '../context/theme-context';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
-
   const totalCount = useSelector((state) => state.cart.totalCount);
 
   return (
     <nav className="navbar">
-      <h1>TechStore</h1>
-      <button onClick={toggleTheme}>
-        {theme === 'light' ? 'Mode sombre' : 'Mode clair'}
-      </button>
-      <span className="badge">Panier : {totalCount}</span>
+      <div className="nav-brand">
+        <span className="logo-icon">⚡</span>
+        <h2>
+          TechStore <span className="badge-mern">MERN S6</span>
+        </h2>
+      </div>
+      <div className="nav-actions">
+        <button className="btn-theme-toggle" onClick={toggleTheme}>
+          {theme === 'light' ? '🌙 Mode Sombre' : '☀️ Mode Clair'}
+        </button>
+        <div className="cart-badge">
+          <span className="cart-icon">🛒</span>
+          <span className="badge-count">{totalCount}</span>
+        </div>
+      </div>
     </nav>
   );
 }
