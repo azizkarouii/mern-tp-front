@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// TODO Volet 2 - Etape 2 : Creer manuellement le fichier src/services/api.js puis l'importer ici :
-// import api from '../services/api';
+import api from '../services/api';
 
 export default function ArticleList() {
-  // TODO Volet 2 - Etape 3A : Declarer les 3 etats [articles, setArticles], [loading, setLoading], [error, setError]
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // TODO Volet 2 - Etape 3B : Appeler api.get('/articles') dans useEffect(() => { ... }, [])
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        setLoading(true);
+        const res = await api.get('/articles');
+        setArticles(res.data);
+      } catch {
+        setError('Impossible de contacter le serveur Express (port 5000).');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
+
+  if (loading) return <p>Chargement des articles depuis Express...</p>;
+  if (error) return <div style={{ color: 'red' }}>Erreur : {error}</div>;
 
   return (
     <div>

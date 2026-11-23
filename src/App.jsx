@@ -1,5 +1,5 @@
 import React from 'react';
-// TODO Volet 1 - Etape 3 : Importer { Routes, Route } depuis 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import RootLayout from './layouts/RootLayout';
 import Accueil from './pages/Accueil';
 import ArticleList from './pages/ArticleList';
@@ -9,11 +9,14 @@ import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
-    <div>
-      {/* TODO Volet 1 - Etape 3 : Declarer <Routes> avec <Route path="/" element={<RootLayout />}>
-          et ses 5 routes enfants : index (Accueil), articles (ArticleList),
-          articles/:id (ArticleDetail), nouveau (ArticleCreate) et * (NotFound) */}
-      <RootLayout />
-    </div>
+    <Routes>
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<Accueil />} />
+        <Route path="articles" element={<ArticleList />} />
+        <Route path="articles/:id" element={<ArticleDetail />} />
+        <Route path="nouveau" element={<ArticleCreate />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }

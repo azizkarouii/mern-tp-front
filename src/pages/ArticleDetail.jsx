@@ -1,18 +1,32 @@
 import React, { useState, useEffect } from 'react';
-// TODO Volet 1 & 2 - Etape 4A : Importer { useParams, useNavigate, Link } depuis 'react-router-dom' et api depuis '../services/api'
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import api from '../services/api';
 
 export default function ArticleDetail() {
-  // TODO 1 : Extraire { id } avec useParams()
-  const id = 1;
+  const { id } = useParams();
   const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // TODO 2 : Charger l'article avec api.get('/articles/' + id) dans useEffect
+  useEffect(() => {
+    async function fetchOne() {
+      try {
+        const res = await api.get(`/articles/${id}`);
+        setArticle(res.data);
+      } catch {
+        setArticle(null);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchOne();
+  }, [id]);
+
+  if (loading) return <p>Chargement...</p>;
 
   if (!article) {
     return (
       <div style={{ background: '#fef2f2', padding: '20px', borderRadius: '8px', color: '#b91c1c' }}>
-        <h3>Chargement ou article #{id} non charge...</h3>
+        <h3>Article #{id} introuvable.</h3>
         <Link to="/articles" style={{ color: '#2563eb', display: 'inline-block', marginTop: '10px' }}>&larr; Retour au catalogue</Link>
       </div>
     );

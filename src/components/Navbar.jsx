@@ -1,5 +1,5 @@
 import React from 'react';
-// TODO Volet 1 - Etape 2 : Importer { NavLink } depuis 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -11,10 +11,16 @@ export default function Navbar() {
         </div>
 
         <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* TODO Volet 1 - Etape 2 : Remplacer ces <a href> par <NavLink to="..."> */}
-          <a href="/" className="nav-link">Accueil</a>
-          <a href="/articles" className="nav-link">Articles (API)</a>
-          <a href="/nouveau" className="nav-link">+ Publier</a>
+          {/* "end" sur "/" évite qu'Accueil reste actif sur "/articles" */}
+          <NavLink to="/" end className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            Accueil
+          </NavLink>
+          <NavLink to="/articles" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            Articles (API)
+          </NavLink>
+          <NavLink to="/nouveau" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            + Publier
+          </NavLink>
         </nav>
       </div>
     </header>

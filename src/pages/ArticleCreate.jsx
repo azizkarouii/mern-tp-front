@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-// TODO Volet 1 & 2 - Etape 4B : Importer { useNavigate } depuis 'react-router-dom' et api depuis '../services/api'
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 export default function ArticleCreate() {
   const [titre, setTitre] = useState('');
@@ -7,7 +8,7 @@ export default function ArticleCreate() {
   const [contenu, setContenu] = useState('');
   const [erreur, setErreur] = useState('');
 
-  // TODO 1 : Initialiser const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +16,8 @@ export default function ArticleCreate() {
       setErreur('Veuillez remplir le titre et le contenu.');
       return;
     }
-    // TODO 2 : Envoyer await api.post('/articles', { titre, categorie, contenu })
-    // puis rediriger vers '/articles' avec navigate('/articles')
+    await api.post('/articles', { titre, categorie, contenu });
+    navigate('/articles');
   };
 
   return (
