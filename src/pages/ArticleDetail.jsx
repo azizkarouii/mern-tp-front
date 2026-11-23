@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 
 export default function ArticleDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,6 +21,11 @@ export default function ArticleDetail() {
     }
     fetchOne();
   }, [id]);
+
+  const handleDelete = async () => {
+    await api.delete(`/articles/${id}`);
+    navigate('/articles');
+  };
 
   if (loading) return <p>Chargement...</p>;
 
@@ -40,6 +46,9 @@ export default function ArticleDetail() {
       <p style={{ lineHeight: 1.7, color: '#1e293b' }}>{article.contenu}</p>
       <div style={{ marginTop: '24px', paddingTop: '14px', borderTop: '1px solid #e2e8f0' }}>
         <Link to="/articles" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none' }}>&larr; Retour a la liste</Link>
+        <button onClick={handleDelete} style={{ marginLeft: '16px', padding: '6px 12px', borderRadius: '6px', border: '1px solid #b91c1c', background: 'white', color: '#b91c1c', cursor: 'pointer' }}>
+          Supprimer
+        </button>
       </div>
     </article>
   );

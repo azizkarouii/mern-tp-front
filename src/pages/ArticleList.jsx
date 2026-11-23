@@ -6,6 +6,7 @@ export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categorieActive, setCategorieActive] = useState('Tous');
 
   useEffect(() => {
     async function fetchArticles() {
@@ -25,6 +26,10 @@ export default function ArticleList() {
   if (loading) return <p>Chargement des articles depuis Express...</p>;
   if (error) return <div style={{ color: 'red' }}>Erreur : {error}</div>;
 
+  const articlesFiltres = categorieActive === 'Tous'
+    ? articles
+    : articles.filter((a) => a.categorie === categorieActive);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -32,8 +37,20 @@ export default function ArticleList() {
         <Link to="/nouveau" className="btn-primary">+ Nouvel Article</Link>
       </div>
 
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+        {['Tous', 'Architecture', 'Front-End', 'Back-End'].map((cat) => (
+          <button
+            key={cat}
+            className={categorieActive === cat ? 'filter-btn active' : 'filter-btn'}
+            onClick={() => setCategorieActive(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       <div className="card-grid">
-        {articles.map((article) => (
+        {articlesFiltres.map((article) => (
           <div key={article.id} className="card">
             <div>
               <span className="badge">{article.categorie}</span>
